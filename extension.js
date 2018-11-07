@@ -196,7 +196,7 @@ function activate(context) {
         display: none;
     }
                 </style>
-                <input class="hidden-toggle" type="checkbox" checked>
+                <input class="hidden-toggle" type="checkbox">
                 Show Morph Debug
                 </input>
                 <div class="to-be-hidden">`,
