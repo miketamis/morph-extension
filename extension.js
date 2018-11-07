@@ -188,7 +188,9 @@ function activate(context) {
             const docUnderstanding = buildDoc(docContent)
             docUnderstanding.location = getLocationFromPath(doc.uri.path)
             const output = [   
+                '<div>',
                 ...getPage(docUnderstanding),
+                '</div>',
                 `
                 <style>
 
