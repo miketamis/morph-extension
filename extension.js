@@ -159,6 +159,9 @@ function getPage(docUnderstanding) {
     ]
 }
 
+
+
+
 function activate(context) {
 
 
@@ -186,10 +189,22 @@ function activate(context) {
             docUnderstanding.location = getLocationFromPath(doc.uri.path)
             const output = [   
                 ...getPage(docUnderstanding),
+                `
+                <style>
+
+    .hidden-toggle:not(:checked) + .to-be-hidden {
+        display: none;
+    }
+                </style>
+                <input class="hidden-toggle" type="checkbox" checked>
+                Show Morph Debug
+                </input>
+                <div class="to-be-hidden">`,
                 '<xmp>',
                 JSON.stringify(docUnderstanding, null, 2),
                 ...buildCSS(docUnderstanding),
-               '</xmp>'
+               '</xmp>',
+               '</div>'
             ]
 
             Promise.all(output).then((outputReady) => {
