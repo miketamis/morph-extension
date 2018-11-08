@@ -12,7 +12,11 @@
     "activationEvents": [
         "onCommand:morphPreview.start"
     ],
-    "publisher": "Mike Tamis",
+    "publisher": "mike-tamis",
+    "repository": {
+        "type" : "git",
+        "url" : "https://github.com/miketamis/morph-extension.git"
+    },      
     "main": "./extension",
     "contributes": {
         "commands": [
