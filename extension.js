@@ -9,6 +9,7 @@ const Disposable = vscode.Disposable;
 const getLocationFromPath = mainCompiler.getLocationFromPath;
 const buildCSS = mainCompiler.buildCSS;
 const buildHTML = mainCompiler.buildHTML;
+const buildLive = mainCompiler.buildLive; 
 
 function getPage(docUnderstanding) {
     return [
@@ -18,6 +19,8 @@ function getPage(docUnderstanding) {
             ...buildHTML(docUnderstanding)
     ]
 }
+
+
 
 
 function activate(context) {
@@ -45,32 +48,40 @@ function activate(context) {
 
             const docUnderstanding = buildDoc(docContent)
             docUnderstanding.location = getLocationFromPath(doc.uri.path)
-            const output = [   
-                '<div>',
-                ...getPage(docUnderstanding),
-                '</div>',
-                `
-                <style>
+            const liveBlock = docUnderstanding.blocks.find(({ name }) => name === 'live')
+            if(liveBlock) {
+                buildLive(liveBlock, docUnderstanding).then((output) => {
+                    panel.webview.html = output;
+                })
+            } else {
+                const output = [   
+                    '<div>',
+                    ...getPage(docUnderstanding),
+                    '</div>',
+                    `
+                    <style>
 
-    .hidden-toggle:not(:checked) + .to-be-hidden {
-        display: none;
-    }
-                </style>
-                <input class="hidden-toggle" type="checkbox">
-                Show Morph Debug
-                </input>
-                <div class="to-be-hidden">`,
-                '<xmp>',
-                JSON.stringify(docUnderstanding, null, 2),
-                ...buildCSS(docUnderstanding),
-               '</xmp>',
-               '</div>'
-            ]
-
-            Promise.all(output).then((outputReady) => {
-                panel.webview.html = outputReady.join('');
-            })
+        .hidden-toggle:not(:checked) + .to-be-hidden {
+            display: none;
         }
+                    </style>
+                    <input class="hidden-toggle" type="checkbox">
+                    Show Morph Debug
+                    </input>
+                    <div class="to-be-hidden">`,
+                    '<xmp>',
+                    JSON.stringify(docUnderstanding, null, 2),
+                    ...buildCSS(docUnderstanding),
+                '</xmp>',
+                '</div>'
+                ]
+
+                Promise.all(output).then((outputReady) => {
+                    panel.webview.html = outputReady.join('');
+                })
+            }
+        }
+
 
 
         handleUpdate();

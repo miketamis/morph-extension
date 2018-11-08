@@ -7,6 +7,8 @@ const renderGenericTemplate = require('./renderGenericTemplate')
 
 const vscode = require('vscode');
 
+const xmlExtension = require('./extensions/xml')(getRequiredValues)
+
 
 function getLocationFromPath(path) {
     return path.substring(0, path.lastIndexOf('/')+1);
@@ -55,9 +57,22 @@ function buildCSS(docUnderstanding) {
     return output;
 }
 
+function buildLive(doc, docUnderstanding) {
+    if(doc.type === 'xml') {
+        return xmlExtension.buildLive(doc, docUnderstanding);
+    }
+    return Promise.resolve('Sorry dont know how todo this live')
+}
+
 function queryBlockForValue(doc, key, docUnderstanding) {
+    if(doc.type === 'xml') {
+        return xmlExtension.queryBlockForValue(doc, key, docUnderstanding);
+    } 
     if(doc.type === 'html') {
         return Promise.resolve(buildHTMLBlock(doc, docUnderstanding))
+    }
+    if(doc.type === 'mustache') {
+        return Promise.resolve(buildMustacheBlock(doc, docUnderstanding))
     }
     if(doc.type === 'js') {
         const requiredValuesProm = Promise.resolve(getRequiredValues(docUnderstanding, doc))
@@ -146,4 +161,5 @@ module.exports = {
     getLocationFromPath,
     buildCSS,
     buildHTML,
+    buildLive,
 }

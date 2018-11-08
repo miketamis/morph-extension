@@ -3,6 +3,8 @@
 const mustache = require('mustache');
 const esprima = require('esprima');
 
+const xmlExtension = require('./extensions/xml')()
+
 const openTagRegex = /<([^\>\/\s\.]+)\.?([^\>\/\s]*)[^>]*>/
 const closeTagRegex = /<\/([^\>\/\s\.]+)\.?([^\>\/\s]*)[^>]*>/
 const importTagRegex = /import {\s*([^}]+)+} from '([^']+)'/
@@ -78,7 +80,8 @@ const jsonExtension = {
 
 const mustacheExtension = {
     getModifingVaribles(group) {
-        return []
+        return group.name !== 'unknown' ? [group.name] : []
+        
     },
     getRequiredVaribles(group) {
         group.much = mustache.parse(group.code)
@@ -143,6 +146,7 @@ const lookup =  {
     json: jsonExtension,
     mustache: mustacheExtension,
     js: jsExtension,
+    xml: xmlExtension,
 }
 
 function getExtension (type) {
@@ -204,7 +208,7 @@ module.exports = (input) => {
             }
         }
         if(openGroup) {
-            openGroup.code += line;
+            openGroup.code += line + '\n';
             return;
         } 
 
