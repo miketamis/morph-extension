@@ -50,31 +50,35 @@ function activate(context) {
             docUnderstanding.root = true;
             docUnderstanding.location = getLocationFromPath(doc.uri.path)
             const liveBlock = docUnderstanding.blocks.find(({ name }) => name === 'live')
+
+            const debug =   [             `
+            <style>
+
+.hidden-toggle:not(:checked) + .to-be-hidden {
+    display: none;
+}
+            </style>
+            <input class="hidden-toggle" type="checkbox">
+            Show Morph Debug
+            </input>
+            <div class="to-be-hidden">`,
+            '<xmp>',
+            JSON.stringify(docUnderstanding, null, 2),
+        '</xmp>',
+        '</div>']
             if(liveBlock) {
                 buildLive(liveBlock, docUnderstanding).then((output) => {
-                    panel.webview.html = output;
+                    panel.webview.html = [
+                        output,
+                        debug,
+                    ].join('');
                 })
             } else {
                 const output = [   
                     '<div>',
                     ...getPage(docUnderstanding),
                     '</div>',
-                    `
-                    <style>
-
-        .hidden-toggle:not(:checked) + .to-be-hidden {
-            display: none;
-        }
-                    </style>
-                    <input class="hidden-toggle" type="checkbox">
-                    Show Morph Debug
-                    </input>
-                    <div class="to-be-hidden">`,
-                    '<xmp>',
-                    JSON.stringify(docUnderstanding, null, 2),
-                    ...buildCSS(docUnderstanding),
-                '</xmp>',
-                '</div>'
+                    ...debug
                 ]
 
                 Promise.all(output).then((outputReady) => {
