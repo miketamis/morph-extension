@@ -5,7 +5,7 @@ const esprima = require('esprima');
 
 const xmlExtension = require('./extensions/xml')()
 
-const openTagRegex = /<([^\>\/\s\.]+)\.?([^\>\/\s]*)[^>]*>/
+const openTagRegex = /<([^\>\/\s\.]+)\.?([^\>\/\s]*)\s*([^\>\/\s]*)[^>]*>/
 const closeTagRegex = /<\/([^\>\/\s\.]+)\.?([^\>\/\s]*)[^>]*>/
 const importTagRegex = /import {\s*([^}]+)+} from '([^']+)'/
 
@@ -75,6 +75,13 @@ const jsonExtension = {
 
         return output;
     }
+}
+
+const inputExtension = {
+    getRequiredVaribles() {
+        return []
+    },
+    getModifingVaribles: jsonExtension.getModifingVaribles,
 }
 
 
@@ -147,6 +154,7 @@ const lookup =  {
     mustache: mustacheExtension,
     js: jsExtension,
     xml: xmlExtension,
+    input: inputExtension,
 }
 
 function getExtension (type) {
@@ -154,6 +162,7 @@ function getExtension (type) {
 }
 
 
+const functionRegex = /([^\(]+)\(([^)]+)\)/
 
 function addToQueue(group) {
     if(!getExtension(group.type)) {
@@ -162,7 +171,23 @@ function addToQueue(group) {
     }
     const requiredVaribles = getExtension(group.type).getRequiredVaribles(group)
     const modifingVaribles = getExtension(group.type).getModifingVaribles(group)
-    group.requiredVaribles = requiredVaribles;
+    group.requiredVaribles = requiredVaribles.map((reqVar) => {
+        const functionReqRes = functionRegex.exec(reqVar);
+
+        if(functionReqRes) {
+            return {
+                token: reqVar,
+                requiredVars: [functionReqRes[1]],
+                function: functionReqRes[1],
+                argument: functionReqRes[2],
+            }
+        }
+
+        return {
+            token: reqVar,
+            requiredVars: [reqVar]
+        }
+    });
     group.modifingVaribles = modifingVaribles;
 }
 
@@ -189,6 +214,7 @@ module.exports = (input) => {
                 code: '',
                 errors: [],
                 index: output.length,
+                params: openRegexResult[3],
             }
             output.push(openGroup)
             return;

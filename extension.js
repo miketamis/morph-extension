@@ -47,6 +47,7 @@ function activate(context) {
             let docContent = doc.getText();
 
             const docUnderstanding = buildDoc(docContent)
+            docUnderstanding.root = true;
             docUnderstanding.location = getLocationFromPath(doc.uri.path)
             const liveBlock = docUnderstanding.blocks.find(({ name }) => name === 'live')
             if(liveBlock) {

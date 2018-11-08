@@ -64,7 +64,19 @@ function buildLive(doc, docUnderstanding) {
     return Promise.resolve('Sorry dont know how todo this live')
 }
 
-function queryBlockForValue(doc, key, docUnderstanding) {
+function getNamedBlock(startIndex, name, docUnderstanding) {
+    for(let i = startIndex - 1; i >= 0; i--) {
+        if(docUnderstanding.blocks[i].name === name) {
+            return docUnderstanding.blocks[i];
+        }
+    }
+}
+
+function queryBlockForValue(block, key, docUnderstanding, req) {
+    const doc = block
+    if(doc.type === 'input') {
+        return doc.queryForValue ? doc.queryForValue(req) : 'Huh trying to use an input when not called';
+    }
     if(doc.type === 'xml') {
         return xmlExtension.queryBlockForValue(doc, key, docUnderstanding);
     } 
@@ -98,6 +110,17 @@ function queryBlockForValue(doc, key, docUnderstanding) {
                 docUnderstandingForNewFile.location = getLocationFromPath(document.uri.path)
 
                 const indexBlock = docUnderstandingForNewFile.blocks.find(({ name }) => name === 'index')
+                const importBlock = docUnderstandingForNewFile.blocks.find(({ type }) => type === 'input')
+
+                if(importBlock) {
+                    if(!req.requirementObj.argument) {
+                        return resolve('This import requires an input')
+                    }
+                    importBlock.queryForValue = (areq) => {
+                        const argumentBlock = getNamedBlock(req.index, req.requirementObj.argument, docUnderstanding)
+                        return queryBlockForValue(argumentBlock, areq.requirement, docUnderstanding, areq)
+                    }
+                }
 
                 if(indexBlock) {
                     resolve(queryBlockForValue(indexBlock, key, docUnderstandingForNewFile));
@@ -120,15 +143,27 @@ function queryBlockForValue(doc, key, docUnderstanding) {
 
 
 const diff = function(b, a) {
-    return b.filter(function(i) {return a.indexOf(i) < 0;});
+    const _a = a.map(({ requirement }) => requirement)
+    return b.filter(function(i) {return _a.indexOf(i.requirement) < 0;});
 };
 
 function getRequirements(docUnderstanding, doc, index) {
-    let required = doc.requiredVaribles;
+    let required = doc.requiredVaribles.reduce((acum, curr) => {
+        return [...acum, ...curr.requiredVars.map(req => {
+            return {
+                requirement: req,
+                requirementObj: curr,
+                index: index,
+            }
+        })]
+    }, []);
     const requiredBlocks = [];
     for(let i = index - 1; i >= 0; i--) {
+        if(docUnderstanding.blocks[i].params === 'live' && !docUnderstanding.root) {
+            continue;
+        }
         const prevReq = required;
-        required = diff(required, docUnderstanding.blocks[i].modifingVaribles)
+        required = diff(required, docUnderstanding.blocks[i].modifingVaribles.map(requirement => ({ requirement })))
         const requiredByThisFile = diff(prevReq, required)
         if(requiredByThisFile.length) {
             requiredBlocks.push({
@@ -150,7 +185,7 @@ function getRequiredValues(docUnderstanding, doc) {
     const values  = {}
     requiredBlocks.forEach((r) => {
         r.why.requiredByThisFile.forEach(req => {
-            values[req] = queryBlockForValue(r.block, req, docUnderstanding)
+            values[req.requirementObj.token] = queryBlockForValue(r.block, req.requirement, docUnderstanding, req)
         })
     })
     return promiseObject(values);
