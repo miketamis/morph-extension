@@ -8,6 +8,7 @@ const renderGenericTemplate = require('./renderGenericTemplate')
 const vscode = require('vscode');
 
 const xmlExtension = require('./extensions/xml')(getRequiredValues)
+const htlExtension = require('./extensions/htl')(getRequiredValues)
 
 
 function getLocationFromPath(path) {
@@ -79,6 +80,9 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
     }
     if(doc.type === 'xml') {
         return xmlExtension.queryBlockForValue(doc, key, docUnderstanding);
+    } 
+    if(doc.type === 'htl') {
+        return htlExtension.queryBlockForValue(doc, key, docUnderstanding);
     } 
     if(doc.type === 'html') {
         return Promise.resolve(buildHTMLBlock(doc, docUnderstanding))

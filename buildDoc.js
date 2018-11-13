@@ -4,6 +4,7 @@ const mustache = require('mustache');
 const esprima = require('esprima');
 
 const xmlExtension = require('./extensions/xml')()
+const htlExtension = require('./extensions/htl')()
 
 const openTagRegex = /<([^\>\/\s\.]+)\.?([^\>\/\s]*)\s*([^\>\/\s]*)[^>]*>/
 const closeTagRegex = /<\/([^\>\/\s\.]+)\.?([^\>\/\s]*)[^>]*>/
@@ -122,23 +123,29 @@ const jsExtension = {
                     }
                 })
             }
-            group.esprima.body.forEach((node) => {
+
+            function doStuff(node) {
+                if(node.type === 'CallExpression') {
+                    node.arguments && handleArgs(node.arguments)
+                    
+                    node.callee.object.arguments && handleArgs(node.callee.object.arguments)
+                    
+                }
+
                 if(node.type === 'VariableDeclaration') {
-                    node.declarations.forEach((a) => {
-                        if(a.init.type === 'CallExpression') {
-                            handleArgs(a.init.arguments)
-                            
-                            handleArgs(a.init.callee.object.arguments)
-                            
-                        }
-                    })
+                    node.declarations.forEach(({ init }) => doStuff(init))
                 }
                 if(node.type === 'ExpressionStatement') {
-                    if(node.expression.right.type === 'Identifier') {
+                    if(node.expression.right && node.expression.right.type === 'Identifier') {
                         output.push(node.expression.right.name);
                     }
+                    if(node.expression) {
+                        doStuff(node.expression)
+                    }
                 }
-            })
+            }
+
+            group.esprima.body.forEach(doStuff)
         // } catch(err) {
 
         // }
@@ -154,6 +161,7 @@ const lookup =  {
     mustache: mustacheExtension,
     js: jsExtension,
     xml: xmlExtension,
+    htl: htlExtension,
     input: inputExtension,
 }
 

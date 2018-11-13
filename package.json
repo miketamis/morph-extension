@@ -39,6 +39,7 @@
         "vscode": "^1.1.21"
     },
     "dependencies": {
+        "@adobe/htlengine": "^2.0.0",
         "esprima": "^4.0.1",
         "mustache": "^3.0.0",
         "promise-all-object": "^2.0.1",
