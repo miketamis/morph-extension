@@ -76,7 +76,14 @@ function getNamedBlock(startIndex, name, docUnderstanding) {
 function queryBlockForValue(block, key, docUnderstanding, req) {
     const doc = block
     if(doc.type === 'input') {
-        return doc.queryForValue ? doc.queryForValue(req) : 'Huh trying to use an input when not called';
+        if(!doc.queryForValue) {
+            return 'Huh trying to use an input when not called'
+        }
+        if(doc.name === key) {
+            req.requirement = doc.argumentBlockName;
+            doc.queryForValue(req)
+        }
+        return doc.queryForValue(req);
     }
     if(doc.type === 'xml') {
         return xmlExtension.queryBlockForValue(doc, key, docUnderstanding);
@@ -120,6 +127,7 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
                     if(!req.requirementObj.argument) {
                         return resolve('This import requires an input')
                     }
+                    importBlock.argumentBlockName  = req.requirementObj.argument
                     importBlock.queryForValue = (areq) => {
                         const argumentBlock = getNamedBlock(req.index, req.requirementObj.argument, docUnderstanding)
                         return queryBlockForValue(argumentBlock, areq.requirement, docUnderstanding, areq)
