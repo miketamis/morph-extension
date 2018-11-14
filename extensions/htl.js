@@ -7,7 +7,7 @@ module.exports = function(getRequiredValues) {
     }
 
     function getModifingVaribles(group) {
-            return group.name !== 'unknown' ? [group.name] : []
+            return group.name !== 'unknown' ? [group.name, group.name + '_raw'] : []
     }
 
     function build(block, docUnderstanding) {
@@ -29,6 +29,9 @@ module.exports = function(getRequiredValues) {
     }
 
     function queryBlockForValue(block, key, docUnderstanding) {
+        if(key.includes('_raw')) {
+            return Promise.resolve(block.code)
+        }
         return Promise.resolve(build(block, docUnderstanding))
     }
 
