@@ -97,7 +97,7 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
             Object.entries(reqVals).forEach(([key, value]) =>  {
                 try {
                     const str = JSON.stringify(value);
-                    inject += `const ${key} = JSON.parse('${str}');`
+                    inject += `const ${key} = JSON.parse('${str.replace(/\\/g, '\\\\')}');`
                 } catch(error) {
                     inject += `ERROR`
                 }
