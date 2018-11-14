@@ -128,8 +128,24 @@ const jsExtension = {
                 if(node.type === 'CallExpression') {
                     node.arguments && handleArgs(node.arguments)
                     
-                    node.callee.object.arguments && handleArgs(node.callee.object.arguments)
+                    node.callee.object && node.callee.object.arguments && handleArgs(node.callee.object.arguments)
                     
+                    if(node.callee.object && node.callee.object.type === 'Identifier') {
+                        output.push(node.callee.object.name)
+                    } 
+                }
+
+                
+                if(node.type === 'ObjectExpression') {
+                    node.properties.forEach((a) => {
+                        if(a.value.type === 'Identifier') {
+                            output.push(a.value.name)
+                        }
+                    })
+                }
+                
+                if(node.type === 'Identifier') {
+                    output.push(node.name)
                 }
 
                 if(node.type === 'VariableDeclaration') {
@@ -149,6 +165,7 @@ const jsExtension = {
         // } catch(err) {
 
         // }
+        console.log(output)
         return output
     }
 }
