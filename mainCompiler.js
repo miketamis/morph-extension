@@ -26,6 +26,12 @@ function buildHTMLBlock(doc, docUnderstanding) {
         return renderHTMLTemplate(doc.code, values);
 }
 
+function buildCSSBlock(doc, docUnderstanding) {
+    const values  = getRequiredValues(docUnderstanding, doc)
+
+    return renderCSSTemplate(doc.code, values);
+}
+
 function buildMustacheBlock(doc, docUnderstanding) {
     const values  = getRequiredValues(docUnderstanding, doc)
     const mustache = require('mustache');
@@ -93,6 +99,9 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
     } 
     if(doc.type === 'html') {
         return Promise.resolve(buildHTMLBlock(doc, docUnderstanding))
+    }
+    if(doc.type === 'css') {
+        return Promise.resolve(buildCSSBlock(doc, docUnderstanding))
     }
     if(doc.type === 'mustache') {
         return Promise.resolve(buildMustacheBlock(doc, docUnderstanding))

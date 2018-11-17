@@ -35,8 +35,8 @@ const cssExtension = {
     getRequiredVaribles(group) {
         return (group.code.match(/\${([^\}]+)}/g) || []).map((a) => a.slice(2, a.length-1))
     },
-    getModifingVaribles() {
-        return []
+    getModifingVaribles(group) {
+        return group.name !== 'unknown' ? [group.name] : []
     }
 }
 
@@ -165,7 +165,6 @@ const jsExtension = {
         // } catch(err) {
 
         // }
-        console.log(output)
         return output
     }
 }
