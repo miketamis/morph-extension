@@ -1,40 +1,334 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <title>React App</title>
+  <link   nonce="sDlPzKOY2N3eLeihWwcZzne9MN8Gf7o3" src="vscode-resource:/Users/miketamis/Development/Projects/morph/morph-extension/morph-extension/extension-pane/build/static/css/main.80e4e1f2.chunk.css" rel="stylesheet">
+  <style>
+body {
+    background-color: rgb(30, 30, 30);
+color: rgb(212, 212, 212);
+display:block;
+font-family:-apple-system, system-ui, "Segoe WPC", "Segoe UI", HelveticaNeue-Light, Ubuntu, "Droid Sans", sans-serif;
+font-size: 13px;
+}
+  </style>
+</head>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<body><noscript>You need to enable JavaScript to run this app.</noscript>
+  <script>
+  window.renderHTML = "<div><style></style>        <style>\n            body {\n        --test: red;\n    }\n\n    .color-block {\n        width: 48px;\n        height: 48px;\n        margin-right: 8px;\n    }\n\n    .color-line {\n        color: var(--test);\n        display: flex;\n        margin: 8px;\n        align-items: center;\n        font-size: 24px;\n    }\n\n    </style>\n    <div>\n        <div class=\"color-line\"> \n            <div class=\"color-block\" style=\"background-color: #bbb\"> </div>\n            <div>grey - #bbb</div>\n        </div>\n    </div>\n\n</div>"
+  window.docUnderstanding = {
+"blocks": [
+{
+"type": "input",
+"name": "colors",
+"code": "{}\n",
+"errors": [],
+"index": 0,
+"params": "",
+"requiredVaribles": [],
+"modifingVaribles": [
+"colors"
+]
+},
+{
+"type": "json",
+"name": "colors",
+"code": "{\n\"grey\": \"#bbb\"\n}\n",
+"errors": [],
+"index": 1,
+"params": "live",
+"requiredVaribles": [],
+"modifingVaribles": [
+"grey",
+"colors"
+]
+},
+{
+"type": "js",
+"name": "unknown",
+"code": "    const indexAsList = Object.entries(colors).map(function(entry) {\n        return {\n            tokenKey: entry[0],\n            tokenValue: entry[1],\n        }\n    });\n",
+"errors": [],
+"index": 2,
+"params": "",
+"esprima": {
+"type": "Program",
+"body": [
+{
+"type": "VariableDeclaration",
+"declarations": [
+{
+"type": "VariableDeclarator",
+"id": {
+"type": "Identifier",
+"name": "indexAsList"
+},
+"init": {
+"type": "CallExpression",
+"callee": {
+"type": "MemberExpression",
+"computed": false,
+"object": {
+"type": "CallExpression",
+"callee": {
+  "type": "MemberExpression",
+  "computed": false,
+  "object": {
+    "type": "Identifier",
+    "name": "Object"
+  },
+  "property": {
+    "type": "Identifier",
+    "name": "entries"
+  }
+},
+"arguments": [
+  {
+    "type": "Identifier",
+    "name": "colors"
+  }
+]
+},
+"property": {
+"type": "Identifier",
+"name": "map"
+}
+},
+"arguments": [
+{
+"type": "FunctionExpression",
+"id": null,
+"params": [
+  {
+    "type": "Identifier",
+    "name": "entry"
+  }
+],
+"body": {
+  "type": "BlockStatement",
+  "body": [
+    {
+      "type": "ReturnStatement",
+      "argument": {
+        "type": "ObjectExpression",
+        "properties": [
+          {
+            "type": "Property",
+            "key": {
+              "type": "Identifier",
+              "name": "tokenKey"
+            },
+            "computed": false,
+            "value": {
+              "type": "MemberExpression",
+              "computed": true,
+              "object": {
+                "type": "Identifier",
+                "name": "entry"
+              },
+              "property": {
+                "type": "Literal",
+                "value": 0,
+                "raw": "0"
+              }
+            },
+            "kind": "init",
+            "method": false,
+            "shorthand": false
+          },
+          {
+            "type": "Property",
+            "key": {
+              "type": "Identifier",
+              "name": "tokenValue"
+            },
+            "computed": false,
+            "value": {
+              "type": "MemberExpression",
+              "computed": true,
+              "object": {
+                "type": "Identifier",
+                "name": "entry"
+              },
+              "property": {
+                "type": "Literal",
+                "value": 1,
+                "raw": "1"
+              }
+            },
+            "kind": "init",
+            "method": false,
+            "shorthand": false
+          }
+        ]
+      }
+    }
+  ]
+},
+"generator": false,
+"expression": false,
+"async": false
+}
+]
+}
+}
+],
+"kind": "const"
+}
+],
+"sourceType": "script"
+},
+"requiredVaribles": [
+{
+"token": "colors",
+"requiredVars": [
+"colors"
+]
+}
+],
+"modifingVaribles": [
+"indexAsList"
+]
+},
+{
+"type": "css",
+"name": "main",
+"code": "    body {\n        --test: red;\n    }\n\n    .color-block {\n        width: 48px;\n        height: 48px;\n        margin-right: 8px;\n    }\n\n    .color-line {\n        color: var(--test);\n        display: flex;\n        margin: 8px;\n        align-items: center;\n        font-size: 24px;\n    }\n",
+"errors": [],
+"index": 3,
+"params": "",
+"requiredVaribles": [],
+"modifingVaribles": [
+"main"
+]
+},
+{
+"type": "mustache",
+"name": "index",
+"code": "    <style>\n        {{main}}\n    </style>\n    <div>\n        {{#indexAsList}}    \n        <div class=\"color-line\"> \n            <div class=\"color-block\" style=\"background-color: {{tokenValue}}\"> </div>\n            <div>{{tokenKey}} - {{tokenValue}}</div>\n        </div>\n        {{/indexAsList}}\n    </div>\n",
+"errors": [],
+"index": 4,
+"params": "",
+"much": [
+[
+"text",
+"    <style>\n        ",
+0,
+20
+],
+[
+"name",
+"main",
+20,
+28
+],
+[
+"text",
+"\n    </style>\n    <div>\n",
+28,
+52
+],
+[
+"#",
+"indexAsList",
+60,
+76,
+[
+[
+"text",
+"        <div class=\"color-line\"> \n            <div class=\"color-block\" style=\"background-color: ",
+81,
+177
+],
+[
+"name",
+"tokenValue",
+177,
+191
+],
+[
+"text",
+"\"> </div>\n            <div>",
+191,
+218
+],
+[
+"name",
+"tokenKey",
+218,
+230
+],
+[
+"text",
+" - ",
+230,
+233
+],
+[
+"name",
+"tokenValue",
+233,
+247
+],
+[
+"text",
+"</div>\n        </div>\n",
+247,
+269
+]
+],
+277
+],
+[
+"text",
+"    </div>\n",
+294,
+305
+]
+],
+"requiredVaribles": [
+{
+"token": "main",
+"requiredVars": [
+"main"
+]
+},
+{
+"token": "indexAsList",
+"requiredVars": [
+"indexAsList"
+]
+}
+],
+"modifingVaribles": [
+"index"
+]
+},
+{
+"type": "html",
+"name": "unknown",
+"code": "    ${index}\n",
+"errors": [],
+"index": 5,
+"params": "",
+"requiredVaribles": [
+{
+"token": "index",
+"requiredVars": [
+"index"
+]
+}
+],
+"modifingVaribles": []
+}
+],
+"root": true,
+"location": "/Users/miketamis/Downloads/test/tokensExample/"
+};
+  </script>
+  <div id="root"></div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+ </body>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
 </html>
