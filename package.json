@@ -27,17 +27,26 @@
                 "category": "Morph"
             }
         ],
-        "languages": [{
-            "id": "morph",
-            "aliases": ["Morph", "morph"],
-            "extensions": ["morph"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "morph",
-            "scopeName": "source.morph",
-            "path": "./syntaxes/morph.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "morph",
+                "aliases": [
+                    "Morph",
+                    "morph"
+                ],
+                "extensions": [
+                    "morph"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "morph",
+                "scopeName": "source.morph",
+                "path": "./syntaxes/morph.tmLanguage.json"
+            }
+        ]
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
@@ -56,6 +65,7 @@
         "form-data": "^2.3.3",
         "isomorphic-fetch": "^2.2.1",
         "mustache": "^3.0.0",
+        "nodegit": "^0.23.0",
         "promise-all-object": "^2.0.1",
         "refractor": "^2.6.1",
         "rehype": "^6.0.0",
