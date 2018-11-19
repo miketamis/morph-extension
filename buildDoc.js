@@ -125,7 +125,8 @@ const jsExtension = {
             }
 
             function doStuff(node) {
-                if(node.type === 'CallExpression') {
+
+                if(node.type === 'NewExpression' || node.type === 'CallExpression') {
                     node.arguments && handleArgs(node.arguments)
                     
                     node.callee.object && node.callee.object.arguments && handleArgs(node.callee.object.arguments)
@@ -133,6 +134,8 @@ const jsExtension = {
                     if(node.callee.object && node.callee.object.type === 'Identifier') {
                         output.push(node.callee.object.name)
                     } 
+
+                    node.callee && doStuff(node.callee);
                 }
 
                 
