@@ -23,6 +23,16 @@
 		  ]
 		},
 		{
+		  "begin": "<([^\\>\\/\\s\\.]+\\.)?java(?:\\s+([^\\>\\/\\s]*))?\\s*>",
+		  "end": "<\\/([^\\>\\/\\s\\.]+\\.)?java(?:\\s+([^\\>\\/\\s]*))?\\s*>",
+		  "contentName": "meta.embedded.block.java",
+		  "patterns": [
+			{
+			  "include": "source.java"
+			}
+		  ]
+		},
+		{
 		  "begin": "<([^\\>\\/\\s\\.]+\\.)?json(?:\\s+([^\\>\\/\\s]*))?\\s*>",
 		  "end": "<\\/([^\\>\\/\\s\\.]+\\.)?json(?:\\s+([^\\>\\/\\s]*))?\\s*>",
 		  "contentName": "meta.embedded.block.json",

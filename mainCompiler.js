@@ -9,6 +9,7 @@ const vscode = require('vscode');
 
 const xmlExtension = require('./extensions/xml')(getRequiredValues)
 const htlExtension = require('./extensions/htl')(getRequiredValues)
+const javaExtension = require('./extensions/java')(getRequiredValues)
 
 
 function getLocationFromPath(path) {
@@ -96,6 +97,9 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
     } 
     if(doc.type === 'htl') {
         return htlExtension.queryBlockForValue(doc, key, docUnderstanding);
+    } 
+    if(doc.type === 'java') {
+        return javaExtension.queryBlockForValue(doc, key, docUnderstanding);
     } 
     if(doc.type === 'html') {
         return Promise.resolve(buildHTMLBlock(doc, docUnderstanding))

@@ -5,6 +5,7 @@ const esprima = require('esprima');
 
 const xmlExtension = require('./extensions/xml')()
 const htlExtension = require('./extensions/htl')()
+const javaExtension = require('./extensions/java')()
 
 const openTagRegex = /<([^\>\/\s\.]+)\.?([^\>\/\s]*)\s*([^\>\/\s]*)[^>]*>/
 const closeTagRegex = /<\/([^\>\/\s\.]+)\.?([^\>\/\s]*)[^>]*>/
@@ -181,6 +182,7 @@ const lookup =  {
     js: jsExtension,
     xml: xmlExtension,
     htl: htlExtension,
+    java: javaExtension,
     input: inputExtension,
 }
 

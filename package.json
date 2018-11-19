@@ -61,9 +61,11 @@
     },
     "dependencies": {
         "@adobe/htlengine": "^2.0.0",
+        "cross-spawn-promise": "^0.10.1",
         "esprima": "^4.0.1",
         "form-data": "^2.3.3",
         "isomorphic-fetch": "^2.2.1",
+        "java": "^0.11.0",
         "mustache": "^3.0.0",
         "nodegit": "^0.23.0",
         "promise-all-object": "^2.0.1",
