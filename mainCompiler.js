@@ -110,10 +110,12 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
         const requiredValuesProm = Promise.resolve(getRequiredValues(docUnderstanding, doc))
         return requiredValuesProm.then(reqVals => {
             let inject = ''
+            const allOfTheInputs = {}
             Object.entries(reqVals).forEach(([key, value]) =>  {
                 try {
                     const str = JSON.stringify(value);
-                    inject += `const ${key} = JSON.parse('${str.replace(/\\/g, '\\\\')}');`
+                    inject += `const ${key} = allOfTheInputs['${key}'];`
+                    allOfTheInputs[key] = value;
                 } catch(error) {
                     inject += `ERROR`
                 }
