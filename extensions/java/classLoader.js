@@ -1,6 +1,6 @@
 var java = require('java');
 
-java.classpath.push("./");
+java.classpath.push(path.join(__dirname));
 
 module.exports = function(classPath, className) {
 var MyClass = java.import('ClassLoader');

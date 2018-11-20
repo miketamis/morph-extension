@@ -1,5 +1,4 @@
 import qj.util.ReflectUtil;
-import qj.util.ThreadUtil;
 import qj.util.lang.DynamicClassLoader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
