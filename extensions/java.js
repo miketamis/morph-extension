@@ -26,7 +26,7 @@ module.exports = function(getRequiredValues) {
     function queryBlockForValue(block, key, docUnderstanding) {
         return new Promise((resolve) => {
             const data = new Uint8Array(Buffer.from(block.code));
-            var dir = path.join(vscode.workspace.rootPath,'morphJavaTemp')
+            var dir = path.join(vscode.workspace.rootPath, 'morphJavaTemp')
             var filePath = path.join(dir, block.name+ '.' + 'java');
 
             if (!fs.existsSync(dir)){
@@ -41,6 +41,9 @@ module.exports = function(getRequiredValues) {
                     const clazz = classLoader(dir, block.name);
 
                     resolve(clazz)
+                }).catch((err) => {
+                    console.log('WOWwewe errors');
+                    console.log(err)
                 })
                 console.log('The file has been saved!');
             });
