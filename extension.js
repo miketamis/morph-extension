@@ -110,7 +110,6 @@ function activate(context) {
                 Promise.all(output).then((outputReady) => {                
                     
                     var renderHTML = outputReady.join('')
-                    var docUnderstanding = docUnderstanding
                     // TODO: #11 generate this from the previous git version
                     // var renderHTMLOld = "<div><style></style>        <style>\n           \n\n    .color-block {\n        width: 48px;\n        height: 48px;\n        margin-right: 8px;\n    }\n\n    .color-line {\n        color: var(--test);\n        display: flex;\n        margin: 8px;\n        align-items: center;\n        font-size: 24px;\n    }\n\n    </style>\n    <div>\n        <div class=\"color-line\"> \n            <div class=\"color-block\" style=\"background-color: #bbb\"> </div>\n            <div>grey - #bbb</div>\n        </div>\n    </div>\n\n</div>"
 
