@@ -100,7 +100,8 @@ const mustacheExtension = {
 
 const jsExtension = {
     getModifingVaribles(group) {
-        group.esprima = esprima.parse(group.code);
+      //  wow so hacky getting rid of all the awaits, come on your better than this.
+        group.esprima = esprima.parse(group.code.replace('await', ''));
         const output = []
         try {
             group.esprima.body.forEach((node) => {
@@ -114,7 +115,8 @@ const jsExtension = {
         return output
     },
     getRequiredVaribles(group) {
-        group.esprima = esprima.parse(group.code);
+        //  wow so hacky getting rid of all the awaits, come on your better than this.
+        group.esprima = esprima.parse(group.code.replace('await', ''));
         const output = []
     //     try {
             function handleArgs(args) {

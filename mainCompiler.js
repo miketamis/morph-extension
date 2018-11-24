@@ -115,6 +115,11 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
         return requiredValuesProm.then(reqVals => {
             let inject = ''
             const allOfTheInputs = {}
+            if(doc.params === 'async') {
+                inject += `async function theAsyncFunctionThatWeCallWow() { `
+            }
+
+            
             Object.entries(reqVals).forEach(([key, value]) =>  {
                 try {
                     const str = JSON.stringify(value);
@@ -124,6 +129,10 @@ function queryBlockForValue(block, key, docUnderstanding, req) {
                     inject += `ERROR`
                 }
             });
+            if(doc.params === 'async') {
+                return Promise.resolve(eval(`${inject}\n ${doc.code }\nreturn ${key}; }\n theAsyncFunctionThatWeCallWow()`))
+            }
+                
             return Promise.resolve(eval(`${inject}\n ${doc.code }\n${key}`))
         })
     }
